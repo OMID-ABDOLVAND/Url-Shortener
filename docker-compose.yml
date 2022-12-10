@@ -1,0 +1,20 @@
+version: '3'
+services:
+
+  cassandra:
+    image: cassandra
+    ports:
+      - "9042:9042"
+    volumes:
+      - ./cassandra:/var/lib/cassandra
+
+
+  app:
+    build: .
+    command: sh -c "./wait-for-it.sh -t 5 127.0.0.1:9042 -- python manage.py runserver 127.0.0.1:8000"
+    volumes:
+      - .:/SHORTLINK-CORE
+    ports:
+      - "8000:8000"
+    depends_on:
+      - cassandra
