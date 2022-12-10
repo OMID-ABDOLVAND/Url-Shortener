@@ -10,11 +10,11 @@ from user_agent.tasks import save_redirector_detail
 class MakeShortUrl(ModelViewSet):
     serializer_class = UrlSerializer
     queryset = UrlModel.objects.all()
-    #
-    # def get_permissions(self):
-    #     if self.action in ['destroy', 'list', 'update']:
-    #         self.permission_classes = [IsAuthenticated]
-    #     return super().get_permissions()
+    
+    def get_permissions(self):
+        if self.action in ['destroy', 'list', 'update']:
+             self.permission_classes = [IsAuthenticated]
+        return super().get_permissions()
 
     def perform_create(self, serializer):
         if self.request.user.is_authenticated:
